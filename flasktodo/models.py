@@ -15,10 +15,10 @@ class User(db.Model, UserMixin):
 	username = db.Column(db.String(20), unique=True, nullable=False)
 	email = db.Column(db.String(120), unique=True, nullable=False)
 	password = db.Column(db.String(60), nullable=False)
-	# One to many rship. Backref similar to adding another column to the die model. 
+	# One to many rship. Backref similar to adding another column to the task model. 
 	# Lazy argument defines when SQLAlchemy loads the data from the database
-	# Upper case on Die b/c we're referencing the class
-	##### come back to this dice = db.relationship('Die', backref='author', lazy=True)
+	# Upper case on Task b/c we're referencing the class
+	tasks = db.relationship('Task', backref='author', lazy=True)
 
 	def get_reset_token(self, expires_sec=1800):
 		s = Serializer(current_app.config['SECRET_KEY'], expires_sec)
@@ -38,3 +38,13 @@ class User(db.Model, UserMixin):
 	def __repr__(self):
 		return f"User('{self.username}', '{self.email}')"
 
+class Task(db.Model):
+	id = db.Column(db.Integer, primary_key=True)
+	task_name = db.Column(db.String(100), nullable=False)
+	date_added = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+	completed = db.Column(db.Boolean, default=False, nullable=False)
+
+	# how our object looks when printed out
+	def __repr__(self):
+		return f"Task('{self.id}', '{self.task_name}', '{self.date_added}', '{self.completed}')"

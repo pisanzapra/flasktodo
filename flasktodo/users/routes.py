@@ -3,7 +3,8 @@ from flask_login import login_user, current_user, logout_user, login_required
 from flasktodo import db, bcrypt
 from flasktodo.users.forms import RegistrationForm, LoginForm, UpdateAccountForm, RequestResetForm, ResetPasswordForm
 from flasktodo.models import User
-from flasktodo.users.utils import save_picture, send_reset_email
+from flasktodo.users.utils import send_reset_email
+# save_picture, 
 
 users = Blueprint('users', __name__)
 
@@ -41,16 +42,16 @@ def login():
 @users.route('/logout')
 def logout():
 	logout_user()
-	return redirect(url_for('main.home'))
+	return render_template('welcome.html', title='Welcome')
 
 @users.route('/account', methods=['GET', 'POST'])
 @login_required #need to be logged in to access
 def account():
 	form = UpdateAccountForm()
 	if form.validate_on_submit():
-		if form.picture.data:
-			picture_file = save_picture(form.picture.data)
-			current_user.image_file = picture_file
+		#if form.picture.data:
+			#picture_file = save_picture(form.picture.data)
+			#current_user.image_file = picture_file
 		current_user.username = form.username.data
 		current_user.email = form.email.data
 		db.session.commit()
@@ -59,8 +60,9 @@ def account():
 	elif request.method == 'GET':
 		form.username.data = current_user.username
 		form.email.data = current_user.email
-	image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
-	return render_template('account.html', title='Account', image_file=image_file, form=form)
+	#image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
+	return render_template('account.html', title='Account', form=form)
+	#image_file=image_file, 
 
 @users.route('/user/<string:username>')
 def user_posts(username):

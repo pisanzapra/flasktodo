@@ -1,4 +1,34 @@
 {% extends "layout.html" %}
 {% block content %}
-  <h1>Home</h1>
+
+ 
+
+ {% if tasks|length > 0 %}
+    {% for task in tasks %}
+        <article class="media content-section">
+          
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="{{ url_for('tasks.update_task', task_id = task.id) }}">{{ task.task_name }}</a>
+                <form action="{{ url_for('tasks.delete_task', task_id = task.id) }}" method="POST">
+      <input class="btn btn-danger" type="submit" value="Delete">
+    </form>
+                <form action="{{ url_for('tasks.complete_task', task_id = task.id) }}" method="POST">
+      <input class="btn btn-danger" type="submit" value="Complete">
+    </form>
+            </div>
+            <h2><a class="article-title" href="#">{{ task.name }}</a></h2>
+            <p class="article-content"></p>
+          </div>
+        </article>
+    {% endfor %}
+
+{% else %}
+
+<div class="content-section">
+    Looks like you don't have any outstanding tasks! Why not <a href="{{ url_for('tasks.new_task') }}">add one now</a>?
+  </div>
+
+{% endif %}
+    
 {% endblock content %}

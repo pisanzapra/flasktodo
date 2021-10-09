@@ -25,11 +25,11 @@ def create_app(config_class=Config):
 
 	#imprint Blueprint classes
 	from flasktodo.users.routes import users
-	# from flaskblog.posts.routes import posts
+	from flasktodo.tasks.routes import tasks
 	from flasktodo.main.routes import main
 	# from flaskblog.errors.handlers import errors
 	app.register_blueprint(users)
-	# app.register_blueprint(posts)
+	app.register_blueprint(tasks)
 	app.register_blueprint(main)
 	# app.register_blueprint(errors)
 

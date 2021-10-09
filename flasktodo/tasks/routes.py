@@ -4,8 +4,6 @@ from flasktodo import db
 from flasktodo.models import Task
 from flasktodo.tasks.forms import TaskForm
 
-# logout_user, login_user
-
 tasks = Blueprint('tasks', __name__)
 
 @tasks.route("/tasks/new", methods=['GET', 'POST'])
@@ -57,29 +55,4 @@ def update_task(task_id):
 	elif request.method == 'GET':
 		form.name.data = task.task_name
 	return render_template('new_task.html', title='Update Task', form=form, legend='Update Task')
-
-
-
-# @tasks.route("/task/<int:task_id>")
-# def task(task_id):
-# 	task = task.query.get_or_404(task_id)
-# 	return render_template('task.html', title=task.title, task=task)
-
-# @tasks.route("/task/<int:task_id>/update", methods=['GET', 'task'])
-# @login_required
-# def update_task(task_id):
-# 	task = task.query.get_or_404(task_id)
-# 	if task.author != current_user:
-# 		abort(403) #forbidden route
-# 	form = taskForm()
-# 	if form.validate_on_submit():
-# 		task.title = form.title.data
-# 		task.content = form.content.data
-# 		db.session.commit()
-# 		flash('Your task has been updated!', 'success')
-# 		return redirect(url_for('tasks.task', task_id=task.id))
-# 	elif request.method == 'GET':
-# 		form.title.data = task.title
-# 		form.content.data = task.content
-# 	return render_template('create_task.html', title='Update task', form=form, legend='Update task')
 

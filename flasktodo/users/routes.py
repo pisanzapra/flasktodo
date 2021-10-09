@@ -4,7 +4,6 @@ from flasktodo import db, bcrypt
 from flasktodo.users.forms import RegistrationForm, LoginForm, UpdateAccountForm, RequestResetForm, ResetPasswordForm
 from flasktodo.models import User
 from flasktodo.users.utils import send_reset_email
-# save_picture, 
 
 users = Blueprint('users', __name__)
 

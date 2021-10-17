@@ -9,16 +9,20 @@
           
           <div class="media-body">
             <div class="article-metadata">
-              <a class="mr-2" href="{{ url_for('tasks.update_task', task_id = task.id) }}">{{ task.task_name }}</a>
-                <form action="{{ url_for('tasks.delete_task', task_id = task.id) }}" method="POST">
+              
+                
+                <form action="{{ url_for('tasks.complete_task', task_id = task.id) }}" method="POST" id="completeForm">
+
+                    <input type ="checkbox" name="cBox[]" value = "3" onchange="document.getElementById('completeForm').submit()"><a class="mr-2" href="{{ url_for('tasks.update_task', task_id = task.id) }}">{{ task.task_name }}</a></input>
+
+
+    </form>
+
+    <form action="{{ url_for('tasks.delete_task', task_id = task.id) }}" method="POST">
       <input class="btn btn-danger" type="submit" value="Delete">
     </form>
-                <form action="{{ url_for('tasks.complete_task', task_id = task.id) }}" method="POST">
-      <input class="btn btn-danger" type="submit" value="Complete">
-    </form>
             </div>
-            <h2><a class="article-title" href="#">{{ task.name }}</a></h2>
-            <p class="article-content"></p>
+
           </div>
         </article>
     {% endfor %}

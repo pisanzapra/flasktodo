@@ -17,6 +17,8 @@ def home():
 	tasks = Task.query.filter_by(completed=False, author=current_user).order_by(Task.date_added.desc()).all()
 	return render_template('home.html', tasks=tasks)
 
+
+
 @main.route('/about')
 def about():
 	return render_template('about.html', title='About')

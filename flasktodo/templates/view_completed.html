@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+{% block content %}
+
+
+ <div class="row">
+ <a href="{{ url_for('main.home') }}" class="ml-auto mb-2 mr-3">View outstanding tasks</a>
+</div>
+
+ {% if tasks|length > 0 %}
+    {% for task in tasks %}
+        <article class="media content-section">
+          
+          <div class="media-body">
+            <div class="article-metadata">
+              
+
+
+    <div class="row">
+        <div class="col">
+          
+{{ task.task_name }}
+
+</div>
+
+<div class="col-sm-auto">
+                
+<form action="{{ url_for('tasks.uncomplete_task', task_id = task.id) }}" method="POST" class="d-inline">
+      <input class="btn btn-secondary" type="submit" value="Not complete">
+    </form>
+
+            </div>
+
+          </div>
+
+</div>
+
+        </article>
+    {% endfor %}
+
+{% else %}
+
+<div class="content-section">
+    Looks like you don't have any completed tasks yet! Return to your <a href="{{ url_for('main.home') }}">outstanding tasks list</a>
+  </div>
+
+{% endif %}
+    
+{% endblock content %}

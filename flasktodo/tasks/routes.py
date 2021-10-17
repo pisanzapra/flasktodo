@@ -26,7 +26,7 @@ def delete_task(task_id):
 		abort(403) #forbidden route
 	db.session.delete(task)
 	db.session.commit()
-	flash('Your post has been deleted!', 'success')
+	flash('Your task has been deleted!', 'success')
 	return redirect(url_for('main.home'))
 
 @tasks.route("/task/<int:task_id>/complete", methods=['POST'])
@@ -39,6 +39,17 @@ def complete_task(task_id):
 	db.session.commit()
 	flash('Your task has been completed!', 'success')
 	return redirect(url_for('main.home'))
+
+@tasks.route("/task/<int:task_id>/uncomplete", methods=['POST'])
+@login_required
+def uncomplete_task(task_id):
+	task = Task.query.get_or_404(task_id)
+	if task.author != current_user:
+		abort(403) #forbidden route
+	task.completed = False
+	db.session.commit()
+	flash('Your task has been marked not complete!', 'success')
+	return redirect(url_for('tasks.view_completed'))
 
 @tasks.route("/task/<int:task_id>/update", methods=['GET', 'POST'])
 @login_required
@@ -55,4 +66,11 @@ def update_task(task_id):
 	elif request.method == 'GET':
 		form.name.data = task.task_name
 	return render_template('new_task.html', title='Update Task', form=form, legend='Update Task')
+
+
+@tasks.route('/tasks/completed')
+@login_required
+def view_completed():
+	tasks = Task.query.filter_by(completed=True, author=current_user).order_by(Task.date_added.desc()).all()
+	return render_template('view_completed.html', tasks=tasks)
 

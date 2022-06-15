@@ -2,6 +2,8 @@
 
 Do It is a simple fullstack to do app built using Flask.
 
+Live demo: https://flaskdoit.herokuapp.com/
+
 ## Features
 * Register, login and logout
 * Trigger a password reset email
